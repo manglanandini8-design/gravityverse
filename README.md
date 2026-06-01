@@ -2,9 +2,16 @@
 
 An interactive gravity simulator for comparing movement across celestial bodies.
 
+🌍 Live Demo:
+https://manglanandini8-design.github.io/gravityverse/
+
+## Screenshot
+
+![GravityVerse Screenshot](screenshot.png)
+
 ## Features
 
-- Compare gravity across planets and moon
+- Compare gravity across planets and moons
 - Visual jump simulations
 - Height and airtime calculations
 - Interactive educational experience
@@ -14,10 +21,6 @@ An interactive gravity simulator for comparing movement across celestial bodies.
 - HTML
 - CSS
 - JavaScript
-
-## Live Demo
-
-🌍 https://manglanandini8-design.github.io/gravityverse/
 
 ## Purpose
 
