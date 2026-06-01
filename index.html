@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GravityVerse | Gravity Instrument Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="is-loading">
+  <div class="loader" aria-label="Loading GravityVerse">
+    <div class="loader-orbit"><span></span><span></span><span></span></div>
+    <p>Calibrating gravity fields</p>
+  </div>
+
+  <div class="space-field" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <main class="dashboard">
+    <header class="top-strip panel-facts">
+      <a class="brand" href="#" aria-label="GravityVerse home">
+        <span class="brand-mark"></span>
+        <span>GravityVerse <small>Comparative gravity instrument</small></span>
+      </a>
+
+      <section class="control-strip" aria-label="Experiment controls">
+        <div class="transport" aria-label="Playback controls">
+          <button id="startBtn" class="primary-button" type="button" title="Start">▶</button>
+          <button id="pauseBtn" type="button" title="Pause">Ⅱ</button>
+          <button id="resetBtn" type="button" title="Reset">↻</button>
+        </div>
+
+        <div class="segmented" id="experimentButtons" role="radiogroup" aria-label="Experiment selector">
+          <button class="active" type="button" data-value="drop" aria-pressed="true">Drop</button>
+          <button type="button" data-value="jump" aria-pressed="false">Jump</button>
+          <button type="button" data-value="throw" aria-pressed="false">Throw</button>
+        </div>
+
+        <div class="segmented compact" id="objectButtons" role="radiogroup" aria-label="Object selector">
+          <button class="active" type="button" data-value="basketball" aria-pressed="true">Ball</button>
+          <button type="button" data-value="feather" aria-pressed="false">Feather</button>
+          <button type="button" data-value="hammer" aria-pressed="false">Hammer</button>
+          <button type="button" data-value="bowlingBall" aria-pressed="false">Bowl</button>
+          <button type="button" data-value="astronaut" aria-pressed="false">Astro</button>
+          <button type="button" data-value="human" aria-pressed="false">Human</button>
+          <button type="button" data-value="car" aria-pressed="false">Car</button>
+        </div>
+
+        <div class="segmented planet-buttons" role="radiogroup" aria-label="Right planet selector">
+          <button class="active" type="button" data-planet="moon" aria-pressed="true">Moon</button>
+          <button type="button" data-planet="mars" aria-pressed="false">Mars</button>
+          <button type="button" data-planet="jupiter" aria-pressed="false">Jupiter</button>
+          <button type="button" data-planet="earth" aria-pressed="false">Earth</button>
+        </div>
+
+        <button id="trailToggle" class="toggle-button active" type="button" aria-pressed="true">Trails</button>
+        <button id="fullscreenBtn" class="icon-button" type="button" aria-pressed="false" title="Toggle fullscreen">⛶</button>
+      </section>
+
+      <select id="experimentSelect" class="sr-control" aria-label="Experiment">
+        <option value="drop">Drop Test</option>
+        <option value="jump">Jump Test</option>
+        <option value="throw">Throw Test</option>
+      </select>
+      <select id="objectSelect" class="sr-control" aria-label="Object">
+        <option value="basketball">Basketball</option>
+        <option value="feather">Feather</option>
+        <option value="hammer">Hammer</option>
+        <option value="bowlingBall">Bowling Ball</option>
+        <option value="astronaut">Astronaut</option>
+        <option value="human">Human</option>
+        <option value="car">Car</option>
+      </select>
+    </header>
+
+    <section class="simulation-row" aria-label="Gravity simulations">
+      <article class="sim-card earth-card">
+        <div class="sim-hud">
+          <div><span>Earth</span><strong>9.81 m/s&sup2;</strong></div>
+          <div class="fps-pill"><span id="fpsCounter">60</span> FPS</div>
+        </div>
+        <canvas id="earthCanvas" aria-label="Earth gravity simulation"></canvas>
+      </article>
+
+      <article class="sim-card moon-card">
+        <div class="sim-hud">
+          <div><span id="rightWorldName">Moon</span><strong><span id="rightGravity">1.62</span> m/s&sup2;</strong></div>
+          <div class="scene-pill">Compare</div>
+        </div>
+        <canvas id="moonCanvas" aria-label="Moon gravity simulation"></canvas>
+      </article>
+    </section>
+
+    <section class="insight-row panel-insight" aria-label="Live comparison insights">
+      <div class="fact-ticker" aria-live="polite">
+        <span>Science signal</span>
+        <strong id="factText">You would weigh about 83% less on the Moon.</strong>
+      </div>
+      <div class="insight-grid">
+        <div><span>Fall speed</span><strong id="fallInsight">Moon 0.00x Earth</strong></div>
+        <div><span>Jump height</span><strong id="jumpInsight">Moon 1.00x higher</strong></div>
+        <div><span>Airborne time</span><strong id="hangInsight">Moon 1.00x longer</strong></div>
+        <div><span>Travel distance</span><strong id="distanceInsight">Moon 1.00x farther</strong></div>
+      </div>
+      <div class="mini-dials">
+        <label>Height <strong id="heightValue">18 m</strong><input id="heightSlider" type="range" min="4" max="40" value="18" step="1" /></label>
+        <label>Launch <strong id="forceValue">18 m/s</strong><input id="forceSlider" type="range" min="6" max="36" value="18" step="1" /></label>
+        <label>Speed <strong id="speedValue">1.0x</strong><input id="speedSlider" type="range" min="0.25" max="2.5" value="1" step="0.05" /></label>
+      </div>
+    </section>
+
+    <section class="data-row">
+      <details class="telemetry-card earth-telemetry" open>
+        <summary>Earth Telemetry</summary>
+        <div class="telemetry-grid">
+          <div><span>Velocity</span><strong id="earthVelocity">0.00 m/s</strong></div>
+          <div><span>Max velocity</span><strong id="earthMaxVelocity">0.00 m/s</strong></div>
+          <div><span>Height</span><strong id="earthHeight">18.00 m</strong></div>
+          <div><span>Peak height</span><strong id="earthPeakHeight">0.00 m</strong></div>
+          <div><span>Time</span><strong id="earthTime">0.00 s</strong></div>
+          <div><span>Gravity</span><strong id="earthGravity">9.81 m/s&sup2;</strong></div>
+          <div><span>Distance</span><strong id="earthDistance">0.00 m</strong></div>
+        </div>
+      </details>
+
+      <details class="telemetry-card moon-telemetry" open>
+        <summary id="rightTelemetryTitle">Moon Telemetry</summary>
+        <div class="telemetry-grid">
+          <div><span>Velocity</span><strong id="moonVelocity">0.00 m/s</strong></div>
+          <div><span>Max velocity</span><strong id="moonMaxVelocity">0.00 m/s</strong></div>
+          <div><span>Height</span><strong id="moonHeight">18.00 m</strong></div>
+          <div><span>Peak height</span><strong id="moonPeakHeight">0.00 m</strong></div>
+          <div><span>Time</span><strong id="moonTime">0.00 s</strong></div>
+          <div><span>Gravity</span><strong id="moonGravity">1.62 m/s&sup2;</strong></div>
+          <div><span>Distance</span><strong id="moonDistance">0.00 m</strong></div>
+        </div>
+      </details>
+
+      <section class="graph-card">
+        <div class="graph-header">
+          <strong>Height vs Time</strong>
+          <span>Earth blue · Moon gold</span>
+        </div>
+        <canvas id="heightGraph" aria-label="Height versus time graph"></canvas>
+      </section>
+
+      <section class="graph-card">
+        <div class="graph-header">
+          <strong>Velocity vs Time</strong>
+          <span>Live velocity profile</span>
+        </div>
+        <canvas id="velocityGraph" aria-label="Velocity versus time graph"></canvas>
+      </section>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
